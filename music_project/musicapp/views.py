@@ -37,8 +37,8 @@ class MyRegisterView(CreateView):
 
 class SongListView(ListView):
     model = Song
-    template_name = "index.html"
-    fields = ["title", "audio", "date", "author", "artist", "genre"]
+    template_name = "musicapp/song_list.html"
+    fields = ["title", "artist", "genre", "file"]
     paginate_by = 10
     context_object_name = "song_list"
 
@@ -47,7 +47,7 @@ class SongCreateView(LoginRequiredMixin, CreateView):
     model = Song
     form_class = SongForm
     template_name = "musicapp/song_form.html"
-    success_url = "/songs/"
+    success_url = "/"
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -62,7 +62,8 @@ class SongDetailView(LoginRequiredMixin, DetailView):
 class SongUpdateView(LoginRequiredMixin, UpdateView):
     model = Song
     template_name = "musicapp/song_form.html"
-    fields = ["title", "artist", "genre", "audio"]
+    fields = ["title", "artist", "genre", "file"]
+    success_url = reverse_lazy("song-list")
 
 
 class SongDeleteView(LoginRequiredMixin, DeleteView):
@@ -71,10 +72,21 @@ class SongDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("song-list")
 
 
+class UserFoldersView(LoginRequiredMixin, ListView):
+    model = Folder
+    template_name = "musicapp/user_folders.html"
+    context_object_name = "folders"
+
+    def get_queryset(self):
+        # Filter folders by the logged-in user
+        return Folder.objects.filter(owner=self.request.user)
+
+
 class FolderCreateView(LoginRequiredMixin, CreateView):
     model = Folder
     template_name = "musicapp/folder_form.html"
     fields = ["name"]
+    success_url = reverse_lazy("user-folders")
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -83,11 +95,16 @@ class FolderCreateView(LoginRequiredMixin, CreateView):
 
 class FolderUpdateView(LoginRequiredMixin, UpdateView):
     model = Folder
+    fields = ["name"]  # Add other fields as needed
     template_name = "musicapp/folder_form.html"
-    fields = ["name"]
+    success_url = "/folders/"
+
+
+class FolderDetailView(LoginRequiredMixin, DetailView):
+    model = Folder
+    template_name = "musicapp/folder_detail.html"
 
 
 class FolderDeleteView(LoginRequiredMixin, DeleteView):
     model = Folder
-    template_name = "musicapp/folder_confirm_delete.html"
-    success_url = reverse_lazy("folder-list")
+    success_url = reverse_lazy("user-folders")

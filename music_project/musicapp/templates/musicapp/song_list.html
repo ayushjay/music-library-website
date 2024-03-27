@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song List</title>
+</head>
+<body>
+    <h1>Song List</h1>
+    <ul>
+        {% for song in object_list %}
+        <a href="{% url 'song-detail' song.pk %}">{{ song.title }} - {{ song.artist }}</a>
+        {% endfor %}
+    </ul>
+</body>
+</html>
