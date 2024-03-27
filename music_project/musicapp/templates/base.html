@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block title %}
+      <title>Music Library Website</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="topnav">
+     
+    </div>
+    <div>
+        <h1> Welcome to the Music Library Website</h1>
+
+
+
+  {% block content %}
+{% for song in song_list %}
+
+<h1><a href="{% url 'song:song-detail' pk=post.pk %}">{{ song.title }}</h1></a>
+
+<audio src="{{ post.audio.url }}" controls="controls">
+
+</audio>
+{{ song.author }}
+{{ song.date }}
+{{ song.genre }}
+
+
+
+{% endfor %}
+
+     <!-- default content text (typically empty) -->
+     {% endblock %}
+<br>
+Add <a href="{% url 'music:song-create' %}">Song</a>
+    </div>
+
+  </body>
+</html>

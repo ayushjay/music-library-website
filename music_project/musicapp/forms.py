@@ -1,8 +1,14 @@
 from django import forms
-from .models import Folder, Song, Author, UserProfile
+from .models import Song, Folder
 
 
-class MusicForm(forms.ModelForm):
+class SongForm(forms.ModelForm):
     class Meta:
         model = Song
-        fields = ["title", "audio", "author", "date", "artist", "genre"]
+        fields = ["title", "artist", "genre", "file"]
+
+
+class FolderForm(forms.ModelForm):
+    class Meta:
+        model = Folder
+        fields = ["name"]
