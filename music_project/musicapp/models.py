@@ -14,12 +14,12 @@ class Folder(models.Model):
 class Song(models.Model):
     title = models.CharField(max_length=200)
     audio = models.FileField(upload_to="media/songdir")
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey("Author", on_delete=models.CASCADE)
     date = models.DateTimeField(
         auto_now=True,
     )
     artist = models.TextField(max_length=200)
-    genre = TaggableManager()
+    genre = models.TextField()
 
     def __str__(self):
         return self.title
