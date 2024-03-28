@@ -95,7 +95,7 @@ class FolderCreateView(LoginRequiredMixin, CreateView):
 
 class FolderUpdateView(LoginRequiredMixin, UpdateView):
     model = Folder
-    fields = ["name"]  # Add other fields as needed
+    fields = ["name"]
     template_name = "musicapp/folder_form.html"
     success_url = "/folders/"
 
